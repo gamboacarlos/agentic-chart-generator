@@ -1,2 +1,7 @@
 .env
 charts/*.png
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo

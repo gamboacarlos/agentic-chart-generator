@@ -9,10 +9,12 @@ from utils import encode_image_b64
 load_dotenv()
 
 openrouter_token = os.getenv("OPENROUTER_API_KEY")
+if not openrouter_token:
+    raise ValueError("OPENROUTER_API_KEY environment variable is not set")
 client = OpenRouterClient(openrouter_token)
 
 
-def reflect_chart(chart_v1_path: str, out_path_v2: str, code_v1: str):
+def reflect_chart(chart_v1_path: str, out_path_v2: str, code_v1: str) -> str:
     print(chart_v1_path)
     print(out_path_v2)
     instructions = "Create a plot comparing Q1 coffee sales in 2024 and 2025 using the data in coffeeshop_sales.csv."

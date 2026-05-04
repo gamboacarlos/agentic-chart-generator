@@ -1,4 +1,4 @@
-def reflect_chart_prompt(out_path_v2: str, instruction: str, code_v1: str):
+def reflect_chart_prompt(out_path_v2: str, instruction: str, code_v1: str) -> str:
     return f"""
     You are a data visualization expert.
     Your task: critique the attached chart and the original code against the given instruction,
@@ -25,7 +25,7 @@ def reflect_chart_prompt(out_path_v2: str, instruction: str, code_v1: str):
     - Save to '{out_path_v2}' with dpi=300.
     - Always call plt.close() at the end (no plt.show()).
     - Include all necessary import statements.
-    
+
     IMPORTANT: The 'date' column is already a pandas datetime64 type.
     - Do NOT concatenate 'date' with 'time' using string operations.
     - To filter by year/quarter, use: df[df['year'] == 2024] or df['date'].dt.year == 2024
@@ -41,7 +41,7 @@ def reflect_chart_prompt(out_path_v2: str, instruction: str, code_v1: str):
     - quarter (int, 1-4)
     - month  (int, 1-12)
     - year   (int)
-    
+
     CRITICAL TYPE RULE: 'date' is already datetime64.
     - NEVER do: df['date'] + ' ' + df['time']  ← this will crash
     - ALWAYS filter by year/quarter using the integer columns: df[df['year'] == 2024]

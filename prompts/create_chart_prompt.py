@@ -1,4 +1,4 @@
-def create_chart_prompt(out_path_v1: str, instruction: str):
+def create_chart_prompt(out_path_v1: str, instruction: str) -> str:
     return f"""
     You are a data visualization expert.
 
@@ -33,6 +33,6 @@ def create_chart_prompt(out_path_v1: str, instruction: str):
     7. Add all necessary import python statements
     8. CRITICAL: 'date' is datetime64 — never use string concatenation on it.
        Filter by year/quarter using the 'year' and 'quarter' integer columns.
-    
+
     Return ONLY the code wrapped in <execute_python> tags.
     """

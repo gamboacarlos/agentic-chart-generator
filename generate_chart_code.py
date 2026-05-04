@@ -8,6 +8,8 @@ from services.minimax_client import MiniMaxClient
 load_dotenv()
 
 minimax_token = os.getenv("MINIMAX_API_KEY")
+if not minimax_token:
+    raise ValueError("MINIMAX_API_KEY environment variable is not set")
 client = MiniMaxClient(minimax_token)
 
 

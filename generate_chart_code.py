@@ -1,16 +1,8 @@
-import os
-
-from dotenv import load_dotenv
-
+from config import settings
 from prompts.create_chart_prompt import create_chart_prompt
 from services.minimax_client import MiniMaxClient
 
-load_dotenv()
-
-minimax_token = os.getenv("MINIMAX_API_KEY")
-if not minimax_token:
-    raise ValueError("MINIMAX_API_KEY environment variable is not set")
-client = MiniMaxClient(minimax_token)
+client = MiniMaxClient(settings.minimax_api_key)
 
 
 def generate_chart_code(out_path: str) -> str:

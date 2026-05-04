@@ -1,17 +1,9 @@
-import os
-
-from dotenv import load_dotenv
-
+from config import settings
 from prompts.reflect_chart_prompt import reflect_chart_prompt
 from services.openrouter_client import OpenRouterClient
 from utils import encode_image_b64
 
-load_dotenv()
-
-openrouter_token = os.getenv("OPENROUTER_API_KEY")
-if not openrouter_token:
-    raise ValueError("OPENROUTER_API_KEY environment variable is not set")
-client = OpenRouterClient(openrouter_token)
+client = OpenRouterClient(settings.openrouter_api_key)
 
 
 def reflect_chart(chart_v1_path: str, out_path_v2: str, code_v1: str) -> str:

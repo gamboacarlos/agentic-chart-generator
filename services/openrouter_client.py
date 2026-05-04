@@ -1,27 +1,23 @@
-import os
-from typing import Any, Optional
+from typing import Any
 
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
+from config import settings
 
 
 class OpenRouterClient:
     def __init__(
         self,
         token: str,
-        model: Optional[str] = os.getenv("OPENROUTER_DEFAULT_MODEL"),
-        url: Optional[str] = os.getenv("OPENROUTER_URI"),
+        model: str = settings.openrouter_default_model,
+        url: str = settings.openrouter_uri,
     ):
         self.name: str = "OpenRouter"
         self.token: str = token
-        self.model: Optional[str] = model
-        self.url: Optional[str] = url
+        self.model: str = model
+        self.url: str = url
 
     def generate_file_response(self, prompt: str, file: str) -> Any:
-        if not self.url:
-            raise ValueError("OPENROUTER_URI environment variable is not set")
         payload = {
             "model": self.model,
             "messages": [

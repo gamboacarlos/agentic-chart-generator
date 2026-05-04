@@ -17,21 +17,22 @@ The reflection pattern enables self-correction: the agent reviews its own output
 
 ```
 agentic-chart-generator/
-├── charts/                 # Generated chart outputs
+├── charts/                  # Generated chart outputs
 │   ├── chart_v1.png
 │   └── chart_v2.png
-├── prompts/                # LLM prompt templates
+├── prompts/                 # LLM prompt templates
 │   ├── create_chart_prompt.py
 │   └── reflect_chart_prompt.py
-├── services/               # API clients
-│   ├── minimax_client.py   # Primary LLM client (code generation)
+├── services/                # API clients
+│   ├── minimax_client.py    # Primary LLM client (code generation)
 │   └── openrouter_client.py # Secondary LLM client (reflection)
-├── generate_chart_code.py  # Chart generation pipeline
-├── reflect_chart.py        # Chart reflection pipeline
-├── utils.py                # Utility functions
-├── main.py                 # Entry point
-├── coffee_sales.csv        # Sample dataset
-└── requeriments.txt        # Dependencies
+├── config.py                # Centralized settings (pydantic-settings)
+├── generate_chart_code.py   # Chart generation pipeline
+├── reflect_chart.py         # Chart reflection pipeline
+├── utils.py                 # Utility functions
+├── main.py                  # Entry point
+├── coffee_sales.csv         # Sample dataset
+└── requeriments.txt         # Dependencies
 ```
 
 ## Requirements
@@ -41,9 +42,31 @@ agentic-chart-generator/
 
 ## Installation
 
+1. Install dependencies:
+
 ```bash
 pip install -r requeriments.txt
 ```
+
+2. Create a `.env` file in the project root with the following variables:
+
+```
+LLM_API_KEY=your_minimax_api_key
+LLM_DEFAULT_MODEL=your_minimax_model_name
+LLM_URI=https://api.minimaxi.chat/v1/text/chatcompletion_v2
+```
+
+> All six variables are required. The app will raise a validation error at startup if any are missing.
+
+## Configuration
+
+Settings are managed centrally in `config.py` using [`pydantic-settings`](https://docs.pydantic.dev/latest/concepts/pydantic_settings/). The `Settings` class reads the `.env` file automatically and validates all variables at startup — no scattered `os.getenv()` calls throughout the codebase.
+
+| Variable            | Description                                   |
+| ------------------- | --------------------------------------------- |
+| `LLM_API_KEY`       | API key for the LLM service (code generation) |
+| `LLM_DEFAULT_MODEL` | Model name to use for LLM requests            |
+| `LLM_URI`           | LLM API endpoint URL                          |
 
 ## Data Format
 
@@ -53,12 +76,12 @@ The system expects a DataFrame with these columns:
 | ------------- | ---------- | ------------------------------ |
 | `date`        | datetime64 | Transaction date (pre-parsed)  |
 | `time`        | string     | Time in HH:MM format           |
-| `cash_type`   | string     | 'card' or 'cash'               |
+| `cash_type`   | string     | `'card'` or `'cash'`           |
 | `card`        | string     | Card identifier                |
 | `price`       | float      | Transaction price              |
 | `coffee_name` | string     | Coffee product name            |
-| `quarter`     | int        | Quarter (1-4, pre-computed)    |
-| `month`       | int        | Month (1-12, pre-computed)     |
+| `quarter`     | int        | Quarter (1–4, pre-computed)    |
+| `month`       | int        | Month (1–12, pre-computed)     |
 | `year`        | int        | Year (e.g. 2024, pre-computed) |
 
 ## Usage
@@ -87,11 +110,11 @@ Uses the secondary LLM to analyze the existing chart image alongside the origina
 
 ### `extract_and_run_code(llm_output, df)`
 
-Extracts Python code from LLM response and executes it against the provided DataFrame.
+Extracts Python code from the LLM response and executes it against the provided DataFrame.
 
 ### `load_and_prepare_data(path)`
 
-Loads a CSV, parses dates, and adds `year`, `month`, `quarter` columns.
+Loads a CSV, parses dates, and adds `year`, `month`, and `quarter` columns.
 
 ## Important Constraints
 
@@ -102,7 +125,7 @@ Loads a CSV, parses dates, and adds `year`, `month`, `quarter` columns.
 
 ## Dependencies
 
+- `pydantic-settings`
 - `requests`
-- `python-dotenv`
 - `pandas`
 - `matplotlib`

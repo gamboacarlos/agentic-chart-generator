@@ -1,0 +1,6 @@
+date,time,cash_type,card,price,coffee_name,quarter,month,year
+2024-09-09,09:00,card,ANON-0000-0000-0583,3.282,Latte,3,9,2024
+2025-03-05,08:24,card,ANON-0000-0000-1184,3.576,Cappuccino,1,3,2025
+2024-06-16,16:05,card,ANON-0000-0000-0306,3.772,Hot Chocolate,2,6,2024
+2024-02-09,06:03,card,ANON-0000-0000-0276,3.086,Americano with Milk,4,11,2024
+2024-06-04,09:43,card,ANON-0000-0000-0192,3.772,Cappuccino,2,6,2024
